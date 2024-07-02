@@ -17,6 +17,8 @@ class REFrame(wx.Frame):
         panel_sizer = wx.BoxSizer(wx.VERTICAL)  
         self.panel.SetSizer(panel_sizer)
         self.panel.my_text = wx.TextCtrl(self.panel, style=wx.TE_MULTILINE)
+        font1 = wx.Font(10, wx.MODERN, wx.NORMAL, wx.NORMAL, False, u'Consolas')
+        self.panel.my_text.SetFont(font1)
         panel_sizer.Add(self.panel.my_text, 1, wx.ALL|wx.EXPAND)
 
         self.panel.Show()
@@ -91,7 +93,7 @@ class REFrame(wx.Frame):
         self.load_file(".\\LICENSE")
 
     def on_show_history(self,e):
-        wx.MessageBox('Show History', 'Menu Selection', wx.OK)
+        self.load_file(".\\history.txt")
 
 if __name__ == '__main__':
     app = wx.App()

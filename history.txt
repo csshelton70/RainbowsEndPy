@@ -1,0 +1,35 @@
+Rainbow's End Version History
+-----------------------------
+
+Bug fixes and small adjustments get a .01 increment
+Changes that make a small difference in how the game is played get a .1 increment.
+Changes that make a big difference in how the game is played, go to the next integer version number.
+
+Version 1.0
+===========
+28 March 2001
+First public announcement and call for playtesters.
+
+Version 1.1
+===========
+29 April 2001
+First code release. (Play by email host program only.)
+Combat/timing rules changed.
+Diplomatic relations added.
+Report format redesigned.
+
+Version 1.2
+===========
+5 May 2001
+- First prototype map display.
+- Report format changes.
+- GIVE order added.
+- WAIT order added.
+- Minor bug fixes.
+
+
+Version 1.3
+===========
+Conversion to Python
+
+
