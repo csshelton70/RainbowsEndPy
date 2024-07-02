@@ -87,7 +87,7 @@ class REFrame(wx.Frame):
         wx.MessageBox('Show ReadMe', 'Menu Selection', wx.OK)
 
     def on_show_rules(self,e):
-        wx.MessageBox('Show Rules', 'Menu Selection', wx.OK)
+        self.load_file(".\\rules.txt")
 
     def on_show_license(self,e):
         self.load_file(".\\LICENSE")
