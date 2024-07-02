@@ -8,3 +8,14 @@ I am porting this game to Python mainly because I want to learn how to program i
 
 ## Status
 In Progress
+
+
+## Libraries Used
+wxPython
+pyTest
+
+## Settings Modified
+Add: "python.linting.pylintArgs": ["--extension-pkg-whitelist=wx"]
+Reason: To prevent pylint from giving a warning about wxPython frames
+
+
