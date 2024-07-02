@@ -1,16 +1,29 @@
 """ Main entry point for the program """
 import wx
+import os
 
 
 class REFrame(wx.Frame):
     """ Windows """   
     def __init__(self):
         super().__init__(parent=None, title='Rainbow\'s End')
-        panel = wx.Panel(self)        
-        my_sizer = wx.BoxSizer(wx.VERTICAL)  
-        panel.SetSizer(my_sizer)
+        
+        # Add a panel and expand it to fill the frame
+        self.panel = wx.Panel(self)
+        frame_sizer = wx.BoxSizer(wx.VERTICAL)
+        frame_sizer.Add(self.panel,1,wx.ALL|wx.EXPAND)
+
+        # Add a multi-line text control to panel and expand it to fit
+        panel_sizer = wx.BoxSizer(wx.VERTICAL)  
+        self.panel.SetSizer(panel_sizer)
+        self.panel.my_text = wx.TextCtrl(self.panel, style=wx.TE_MULTILINE)
+        panel_sizer.Add(self.panel.my_text, 1, wx.ALL|wx.EXPAND)
+
+        self.panel.Show()
+
         self.create_menu()
         self.Show()
+        self.Maximize()
 
     def create_menu(self):
         menu_bar = wx.MenuBar()
@@ -48,6 +61,12 @@ class REFrame(wx.Frame):
         self.statusBar = self.CreateStatusBar(2)
         self.statusBar.SetStatusText("Welcome")
 
+    def load_file(self,filename):
+        self.panel.my_text.Clear()
+        if os.path.exists(filename):
+            with open(filename) as fobj:
+                for line in fobj:
+                    self.panel.my_text.WriteText(line)
 
     #Create all the events that are bound to menu items    
     def on_exit(self, e):
@@ -69,11 +88,10 @@ class REFrame(wx.Frame):
         wx.MessageBox('Show Rules', 'Menu Selection', wx.OK)
 
     def on_show_license(self,e):
-        wx.MessageBox('Show License', 'Menu Selection', wx.OK)
+        self.load_file(".\\LICENSE")
 
     def on_show_history(self,e):
         wx.MessageBox('Show History', 'Menu Selection', wx.OK)
-
 
 if __name__ == '__main__':
     app = wx.App()
