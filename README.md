@@ -13,6 +13,8 @@ In Progress
 ## Libraries Used
 wxPython
 pyTest
+pyTest-Cov
+
 
 ## Settings Modified
 Add: "python.linting.pylintArgs": ["--extension-pkg-whitelist=wx"]
