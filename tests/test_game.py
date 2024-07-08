@@ -22,7 +22,8 @@ def test_creategame(setup_data):
     _game = setup_data
     _game.create_new_game()
     assert os.path.exists(filepath)
-
+    assert os.path.exists(f'{filepath}turns')
+    assert os.path.exists(f'{filepath}turns\\1')
 
 def test_game_exists(setup_data):
     """ Checks to make sure game paths exists """

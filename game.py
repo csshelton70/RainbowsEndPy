@@ -27,7 +27,10 @@ class Game:
         
     def create_new_game(self):
         if not os.path.exists(self._directory):
+            self.logger.debug("    creating new game folder")
             os.makedirs(self._directory)
+            os.makedirs(f'{self._directory}\\turns')
+            os.makedirs(f'{self._directory}\\turns\\1')
         self._players.read()
             
 
