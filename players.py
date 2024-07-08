@@ -35,8 +35,28 @@ class Players:
         id = self.count()
         id+=1
         self.list.append(player.Player(id,name,email))
-        
+        self.save()
+
+    def save(self):
         dict_list = [player.to_dict() for player in self.list]
         with open(self.filename,'w') as file:
             json.dump(dict_list, file, indent=4)
-        
+
+    def find_by_id(self,id):
+#        player = next(filter(lambda player: player.id == id, self.list))
+        f = (filter(lambda player: player.id == id, self.list))
+        lst = list(f)
+        ct = len(lst)
+        if (ct > 0):
+            return lst[0]
+        else:
+            return None
+
+    def remove_by_id(self,id):
+        if ( self.find_by_id(id) != None ):
+            l= list(filter(lambda player: player.id != id, self.list))
+            self.list = l
+            self.save()
+            return len(self.list)
+
+    
