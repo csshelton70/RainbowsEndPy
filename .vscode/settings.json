@@ -10,5 +10,7 @@
     "python.testing.unittestEnabled": false,
     "python.testing.pytestArgs": [
         "tests"
-    ]
+    ],
+    "todo-tree.tree.scanMode": "open files",
+    "coverage-gutters.coverageReportFileName": "Shtmlcov/index.html"
 }

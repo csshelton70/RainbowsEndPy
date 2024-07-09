@@ -23,7 +23,19 @@ def test_creategame(setup_data):
     _game.create_new_game()
     assert os.path.exists(filepath)
     assert os.path.exists(f'{filepath}turns')
-    assert os.path.exists(f'{filepath}turns\\1')
+    assert os.path.exists(f'{filepath}turns\\0')
+
+def test_game_checkdict(setup_data):
+    _game = setup_data
+    _game.create_new_game()
+
+    assert ( _game._options.get('humanplayers') is not None)
+    assert ( _game._options.get('computerplayers') is not None)
+    assert ( _game._options.get('startingmoney') is not None)
+    assert ( _game._options.get('mapsize') is not None)
+    assert ( _game._options.get('cityseparation') is not None)
+    assert ( _game._options.get('sightingdistance') is not None)
+
 
 def test_game_exists(setup_data):
     """ Checks to make sure game paths exists """

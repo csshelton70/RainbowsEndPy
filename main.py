@@ -1,3 +1,5 @@
+#//TODO: Find out how to create a requirements type file that other devs can use to isntall required libraries
+
 """ Main entry point for the program """
 import argparse
 import game
@@ -16,6 +18,8 @@ parser.add_argument("-pt","--processturn",action="store_true", help="process the
 parser.add_argument("-i","--info",action="store_true", help="display information about the game")
 # --adduser <username>
 parser.add_argument("-au","--adduser", help="Only available before the game beings.  Add a new user to the list")
+#//TODO: Add an arguement for loglevel, default to info, and use logger.setLevel() to change it
+
 
 logger.debug("  Parsing Arguments")
 args = parser.parse_args()
