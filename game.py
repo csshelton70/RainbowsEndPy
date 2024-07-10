@@ -3,17 +3,15 @@ import os
 import json
 from typing import List
 import logging
-import pdb
 
-import player
-import players
+from players import Players
 
 class Game:
     _turn: int
     _slot: int
     _directory: str
     _players_file: str
-    _players: List
+    _players: Players
     _options : dict
        
     def __init__(self,folder=".\\game\\"):
@@ -22,10 +20,10 @@ class Game:
         self._directory = folder
         self._options= dict(humanplayers=0, computerplayers=0, startingmoney=10,mapsize=35,cityseparation=3,sightingdistance=3)
         # // TODO: Write the options to the disk in the game folder so they can be modified by the user using text editor
-        self._players = players.Players(f'{folder}players.json')
+        self._players = Players(f'{folder}players.json')
         
         self._logger = logging.getLogger(__name__)
-        self._players.read()
+        self._players.load()
         
     def create_new_game(self):
         if not os.path.exists(self._directory):
@@ -33,7 +31,7 @@ class Game:
             os.makedirs(self._directory)
             os.makedirs(f'{self._directory}\\turns')
             os.makedirs(f'{self._directory}\\turns\\{self._turn}')
-        self._players.read()
+        self._players.load()
             
 
     def start_game(self):

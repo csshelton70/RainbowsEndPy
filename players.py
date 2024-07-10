@@ -3,7 +3,7 @@ import os
 import json
 from typing import List
 
-import player
+from player import Player
 
 class Players:
     list = List
@@ -13,13 +13,13 @@ class Players:
         self.filename = filename
 
     def count(self):
-        self.read()
+        self.load()
         return len(self.list)
     
     def clear(self):
         self.list = []
 
-    def read(self):
+    def load(self):
         if ( os.path.exists(self.filename) == False):
             self.list = []
         else:
@@ -27,16 +27,29 @@ class Players:
                 data = json.load(file)
                 self.list = []
                 for item in data:
-                    _p = player.Player(item['id'], item['name'], item['email'])
+                    _p = Player()
+                    _p.populate_from_dict(item)
                     self.list.append(_p)
 
-    def add(self,name,email):
-        self.read()
+    def add(self,name,email, money):
+        self.load()
         id = self.count()
         id+=1
-        self.list.append(player.Player(id,name,email))
+        _p = Player()
+        _p.populate(id,name,email,money)
+        self.list.append(_p)
         self.save()
 
+    def add_from_dict(self,d):
+        self.load()
+        id = self.count()
+        id += 1
+        d["id"] = id
+        _p = Player()
+        _p.populate_from_dict(d)
+        self.list.append(_p)
+        self.save()
+        
     def save(self):
         dict_list = [player.to_dict() for player in self.list]
         with open(self.filename,'w') as file:

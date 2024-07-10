@@ -58,25 +58,45 @@ def test_game_add_player(setup_data):
     _game = setup_data
     _game.create_new_game()
 
-    _game._players.add("foo","test@test.com")
+    _game._players.add("foo","test@test.com",_game._options.get('startingmoney'))
 
     assert (_game._players.count() == 1 )
-    _game._players.read()
 
+    _game._players.load()
     assert (_game._players.count() == 1 )
     
     _game._players.clear()
-    _game._players.read()
+    _game._players.load()
     assert (_game._players.count() == 1 )
     assert( _game._players.list[0].name == "foo")    
+    assert (_game._players.list[0].money == _game._options.get('startingmoney'))
+
+def test_game_add_player_from_dict(setup_data):
+    _game = setup_data
+    _game.create_new_game()
+
+    d = {"id":0,"name":"foo","email":"test@test.com","money":_game._options.get('startingmoney'),"lastorders":[],"friends":[],"units":[],"removedunits":[]}
+
+    _game._players.add_from_dict(d)
+
+    assert (_game._players.count() == 1 )
+
+    _game._players.load()
+    assert (_game._players.count() == 1 )
+    
+    _game._players.clear()
+    _game._players.load()
+    assert (_game._players.count() == 1 )
+    assert( _game._players.list[0].name == "foo")    
+    assert (_game._players.list[0].money == _game._options.get('startingmoney'))
 
 def test_game_find_player(setup_data):
     _game = setup_data
     _game.create_new_game()
 
-    _game._players.add("foo","test1@test.com")
-    _game._players.add("bar","tes2t@test.com")
-    _game._players.add("one","test3@test.com")    
+    _game._players.add("foo","test1@test.com",44)
+    _game._players.add("bar","tes2t@test.com",44)
+    _game._players.add("one","test3@test.com",44)    
     assert (_game._players.count() == 3 )
 
     r=_game._players.find_by_id(1)
@@ -94,21 +114,33 @@ def test_game_find_player(setup_data):
     r = _game._players.find_by_id(444)
     assert ( r==None)
 
-def test_game_rmove_by_id(setup_data):
+def test_game_remove_by_id(setup_data):
     _game = setup_data
     _game.create_new_game()
 
-    _game._players.add("foo","test1@test.com")
-    _game._players.add("bar","tes2t@test.com")
-    _game._players.add("one","test3@test.com")    
+    _game._players.add("foo","test1@test.com",0)
+    _game._players.add("bar","tes2t@test.com",0)
+    _game._players.add("one","test3@test.com",0)    
+    _game._players.save()
+
     assert (_game._players.count() == 3 )
 
     r =_game._players.remove_by_id(2)
     assert (r == 2)
     assert (_game._players.count() == 2 )
 
+    _game._players.save()
+    _game._players.load()
+
     r = _game._players.find_by_id(3)
     assert ( r.email == "test3@test.com")
 
     r = _game._players.find_by_id(2)
     assert ( r==None)
+
+    
+
+
+
+
+

@@ -1,44 +1,35 @@
-# #include <ctype.h>
-# #include <stdio.h>
-# #include <stdlib.h>
-# #include <string.h>
-# #include "main.h"
+from random import randint
+from utilities import is_even, is_odd, sign
 
-# terrain terrains[] =
-# {
-# 	{"water"},
-# 	{"plain", 1},
-# 	{"forest", 2},
-# 	{"mountain", 3},
-# };
+class Map:
+    _terrain : dict
+    _terrain_count: int
+    _hexes : list[int]
+    _mapsize : 0
 
-# hex *hexes;
-# int hexescount;
+    def __init__(self,folder=".\\game\\"):
+        # terrain name = movement cost
+        self._terrain = dict(water=0, plain=1, forest=2,mountain=3)
+        self._terrain_count = len(self._terrain)
 
-# static char buf[linesize];
+        return
+    
+    def CreateMap(self,mapsize) -> None:
+        self._mapsize = mapsize
+        hexcount = mapsize * mapsize
 
-# static int offshore(int h)
-# {
-# 	if (hexes[h].terrain)
-# 		return 0;
-# 	for (int d = 0; d < 6; d++)
-# 	{
-# 		int h2 = displace(h, d);
-# 		if (h2 >= 0 && hexes[h2].terrain)
-# 			return 1;
-# 	}
-# 	return 0;
-# }
+        self._hexes = []
+        for i in range(hexcount):
+            self._hexes.append(self._terrain['water'])
+
+        i = randint(0,99) 
+        self._hexes[i] = self._terrain['mountain']
+        
+
+
 
 # void initmap()
 # {
-# 	hexescount = mapsize * mapsize;
-# 	hexes = new hex[hexescount];
-
-# 	for (int h = 0; h < hexescount; h++)
-# 		hexes[h].terrain = t_water;
-# 	hexes[random() % hexescount].terrain = t_mountain;
-
 # 	int *a = new int[hexescount];
 
 # 	int n = hexescount / 2 - 1;
@@ -63,6 +54,30 @@
 # 	}
 
 # 	delete[] a;
+# }
+    def is_offshore(self,h) -> bool :
+        if ( self._hexes[h] == self._terrain['water'] ):
+            return 0
+        
+        for i in range(0,6):
+            h2 = self._displace(h,i)
+            if (( h2 >= 0 ) and (self._hexes[h2]==0)):
+                return 1
+            
+        return 0
+
+        
+# static int offshore(int h)
+# {
+# 	if (hexes[h].terrain)
+# 		return 0;
+# 	for (int d = 0; d < 6; d++)
+# 	{
+# 		int h2 = displace(h, d);
+# 		if (h2 >= 0 && hexes[h2].terrain)
+# 			return 1;
+# 	}
+# 	return 0;
 # }
 
 # int findterrain(char *s)
@@ -107,102 +122,80 @@
 # 	return s;
 # }
 
-# int onmap(int x, int y)
-# {
-# 	return x >= 0 && x < mapsize &&
-# 		y >= 0 && y < mapsize;
-# }
+    def is_on_map(self,x,y) -> bool:
+        return ((x >= 0 ) and ( x< self._mapsize) and ( y >=0 ) and (y < self._mapsize))
+    
+    def xy_to_h(self,x,y) -> int:
+        return y * self._mapsize + x
 
-# int xytoh(int x, int y)
-# {
-# 	return y * mapsize + x;
-# }
+    def h_to_x(self,h) -> int:
+        return h % self._mapsize
 
-# int htox(int h)
-# {
-# 	return h % mapsize;
-# }
+    def h_to_y(self,h) -> int:
+        return int(h / self._mapsize)
 
-# int htoy(int h)
-# {
-# 	return h / mapsize;
-# }
+    def displace(self,h,d) -> int:
+        x = self.h_to_x(h)
+        y = self.h_to_y(h)
 
-# int displace(int h, int d)
-# {
-# 	int x = htox(h);
-# 	int y = htoy(h);
+        if (d == 0):
+            y-=1
+        elif (d ==1 ):
+            if (is_even(x)):
+                y-=1
+            x+=1
+        elif ( d==2):
+            if ( is_odd(x)):
+                y+=1
+            x+=1
+        elif (d==3):
+            y+=1
+        elif (d==4):
+            if (is_odd(x)):
+                y+=1
+            x-=1
+        elif (d==5):
+            if (is_even(x)):
+                y-=1
+            x-=1
 
-# 	switch (d)
-# 	{
-# 	case 0:
-# 		y--;
-# 		break;
-# 	case 1:
-# 		if (even(x))
-# 			y--;
-# 		x++;
-# 		break;
-# 	case 2:
-# 		if (odd(x))
-# 			y++;
-# 		x++;
-# 		break;
-# 	case 3:
-# 		y++;
-# 		break;
-# 	case 4:
-# 		if (odd(x))
-# 			y++;
-# 		x--;
-# 		break;
-# 	case 5:
-# 		if (even(x))
-# 			y--;
-# 		x--;
-# 		break;
-# 	}
+        if (self.is_on_map(x,y)):
+            return -1
+        
+        return self.xy_to_h(x,y)
 
-# 	if (!onmap(x, y))
-# 		return -1;
-# 	return xytoh(x, y);
-# }
+    def h_to_a(self,h) -> int:
+        x = self.h_to_x(h)
+        y = self.h_to_y(h)
 
-# static int htoa(int h)
-# {
-# 	int x = htox(h);
-# 	int y = htoy(h);
-# 	return (x+1) / 2 + y;
-# }
+        return int((x+1)/2+y)
 
-# static int htob(int h)
-# {
-# 	int x = htox(h);
-# 	int y = htoy(h);
-# 	return x / 2 - y;
-# }
+    def h_to_b(self,h) -> int:
+        x = self.h_to_x(h)
+        y = self.h_to_y(h)
 
-# int distance(int h1, int h2)
-# {
-# 	int a1 = htoa(h1);
-# 	int b1 = htob(h1);
+        return int((x/2)-y)
 
-# 	int a2 = htoa(h2);
-# 	int b2 = htob(h2);
+    def distance(self,h1,h2) -> int:
+        a1 = self.h_to_a(h1)
+        b1 = self.h_to_b(h1)
 
-# 	int da = a1 - a2;
-# 	int db = b1 - b2;
+        a2 = self.h_to_a(h2)
+        b2 = self.h_to_b(h2)
 
-# 	int s = (sign(da) == sign(db));
+        da = a1-a2
+        db = b1-b2
 
-# 	da = abs(da);
-# 	db = abs(db);
+        s = bool(sign(da) == sign(db))
 
-# 	if (s)
-# 		return da + db;
-# 	else
-# 		return max(da, db);
-# }
+        da = abs(da)
+        db = abs(db)
+
+        if (s):
+            return da+db
+        else:
+            return max(da,db)
+
 
 # void event(int h, char *s)
 # {
