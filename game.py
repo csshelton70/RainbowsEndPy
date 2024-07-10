@@ -7,12 +7,16 @@ import logging
 from players import Players
 
 class Game:
+    #private
     _turn: int
     _slot: int
     _directory: str
     _players_file: str
     _players: Players
     _options : dict
+
+    #public
+    
        
     def __init__(self,folder=".\\game\\"):
         self._turn = 0

@@ -2,10 +2,15 @@ from random import randint
 from utilities import is_even, is_odd, sign
 
 class Map:
+    #private
     _terrain : dict
     _terrain_count: int
-    _hexes : list[int]
     _mapsize : 0
+    _hexes : list[int]
+    
+    #public
+
+
 
     def __init__(self,folder=".\\game\\"):
         # terrain name = movement cost

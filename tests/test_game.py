@@ -68,8 +68,8 @@ def test_game_add_player(setup_data):
     _game._players.clear()
     _game._players.load()
     assert (_game._players.count() == 1 )
-    assert( _game._players.list[0].name == "foo")    
-    assert (_game._players.list[0].money == _game._options.get('startingmoney'))
+    assert( _game._players._list[0].name == "foo")    
+    assert (_game._players._list[0].money == _game._options.get('startingmoney'))
 
 def test_game_add_player_from_dict(setup_data):
     _game = setup_data
@@ -87,8 +87,8 @@ def test_game_add_player_from_dict(setup_data):
     _game._players.clear()
     _game._players.load()
     assert (_game._players.count() == 1 )
-    assert( _game._players.list[0].name == "foo")    
-    assert (_game._players.list[0].money == _game._options.get('startingmoney'))
+    assert( _game._players._list[0].name == "foo")    
+    assert (_game._players._list[0].money == _game._options.get('startingmoney'))
 
 def test_game_find_player(setup_data):
     _game = setup_data

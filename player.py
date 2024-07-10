@@ -1,4 +1,7 @@
 class Player:
+    # private
+
+    # public
     id: int
     name: str
     email: str
