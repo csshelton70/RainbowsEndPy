@@ -15,6 +15,8 @@ def test_create_map(setup_data):
 
     assert(len(_map._hexes) == 100)
     assert(_map._hexes[0] == 0)
+    for i in range(0,100):
+        assert(_map._hexes[0] == 0)
     assert(_map._hexes[99] == 0)
 
 def test_is_on_map(setup_data):

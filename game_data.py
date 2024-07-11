@@ -1,9 +1,12 @@
 import os
 import json
+import logging
+import inspect
 
 class GameData:
     # private
     _filename : str
+    _logger : logging.Logger
 
     # public
     started : bool
@@ -16,10 +19,13 @@ class GameData:
     sightdistance : int
 
     def __init__(self,filepath):
+        self._logger = logging.getLogger(__name__)
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}")
         self._filename = f'{filepath}gamedata.json'
         self.Load()
 
-    def Initialize ( self ) -> None :
+    def InitializeDefaultData ( self ) -> None :
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}")
         self.human_players = 10
         self.computer_players = 0
         self.starting_money = 10
@@ -28,11 +34,15 @@ class GameData:
         self.sight_distance = 3
         self.current_turn = 0
         self.started = False
+        self._logger.debug(f"       {inspect.currentframe().f_code.co_name} Result=Initialized")
 
-    def Load(self):
+    def Load(self) -> None:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}")
+
         if ( os.path.exists(self._filename) == False):
-            self.Initialize()
+            self.InitializeDefaultData()
             self.Save()
+            self._logger.debug(f"       {inspect.currentframe().f_code.co_name} Result=Created new file")
         else:
             with open(self._filename, 'r') as file:
                 data = json.load(file)
@@ -44,9 +54,12 @@ class GameData:
                 self.city_separation = data["city_separation"]
                 self.sight_distance = data["sight_distance"]
                 self.started = data["started"]
+            self._logger.debug(f"       {inspect.currentframe().f_code.co_name} Result=Loaded existing file")
 
 
     def Save(self):
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}")
+
         data = {"current_turn":self.current_turn, 
             "human_players":self.human_players,
             "computer_players":self.computer_players,
@@ -58,4 +71,7 @@ class GameData:
         
         with open(self._filename,'w') as file:
             json.dump(data, file, indent=4)
+
+        self._logger.debug(f"       {inspect.currentframe().f_code.co_name} Result=Saved to file")
+
     

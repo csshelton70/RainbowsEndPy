@@ -15,12 +15,15 @@
 	# D: A direction from 0 to 5 counting clockwise from north.
     #-----------------------------------------------------------------------------------
 
-
+import logging
 from random import randint
+import inspect
+
 from utilities import Is_Even, Is_Odd, Get_Sign
 
 class Map:
     #private
+    _logger : logging.Logger
     _terrain : dict
     _terrain_count: int
     _mapsize : 0
@@ -31,13 +34,18 @@ class Map:
 
 
     def __init__(self,folder=".\\game\\"):
-        # terrain name = movement cost
+        self._logger = logging.getLogger(__name__)
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}")
+
         self._terrain = dict(water=0, plain=1, forest=2,mountain=3)
         self._terrain_count = len(self._terrain)
 
         return
     
     def Create_Map(self,mapsize) -> None:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}:{mapsize}")
+
+
         self._mapsize = mapsize
         hexcount = mapsize * mapsize
 
@@ -79,6 +87,9 @@ class Map:
 # 	delete[] a;
 # }
     def is_offshore(self,h) -> bool :
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}:{h}")
+
+
         if ( self._hexes[h] == self._terrain['water'] ):
             return 0
         
@@ -146,18 +157,28 @@ class Map:
 # }
 
     def is_on_map(self,x,y) -> bool:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}:{x},{y}")
+
         return ((x >= 0 ) and ( x< self._mapsize) and ( y >=0 ) and (y < self._mapsize))
     
     def xy_to_h(self,x,y) -> int:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}:{x},{y}")
+
         return y * self._mapsize + x
 
     def h_to_x(self,h) -> int:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}:{h}")
+
         return h % self._mapsize
 
     def h_to_y(self,h) -> int:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}:{h}")
+
         return int(h / self._mapsize)
 
     def displace(self,h,d) -> int:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}:{h},{d}")
+
         x = self.h_to_x(h)
         y = self.h_to_y(h)
 
@@ -188,18 +209,24 @@ class Map:
         return self.xy_to_h(x,y)
 
     def h_to_a(self,h) -> int:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}{h}")
+
         x = self.h_to_x(h)
         y = self.h_to_y(h)
 
         return int((x+1)/2+y)
 
     def h_to_b(self,h) -> int:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}:{h}")
+
         x = self.h_to_x(h)
         y = self.h_to_y(h)
 
         return int((x/2)-y)
 
     def distance(self,h1,h2) -> int:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}:{h1},{h2}")
+
         a1 = self.h_to_a(h1)
         b1 = self.h_to_b(h1)
 

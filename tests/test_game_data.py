@@ -40,3 +40,18 @@ def test_save_data_no_file(setup_data):
     _gd.Load()
 
     assert(_gd.current_turn == 0)
+
+def test_double_loAD(setup_data):
+    """ Checks to make sure the gamefolder and player.txt file is created"""
+    _gd = GameData(filepath)
+    _gd.Load()
+    _gd.Load()
+
+    assert(_gd.human_players == 10)
+
+    _gd.human_players = 11
+    _gd.Save()
+    _gd.Load()
+
+    assert(_gd.human_players == 11)
+

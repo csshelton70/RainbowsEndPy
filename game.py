@@ -3,6 +3,7 @@ import os
 import json
 from typing import List
 import logging
+import inspect
 
 from players import Players
 from game_data import GameData
@@ -21,24 +22,26 @@ class Game:
     def __init__(self,folder=".\\game\\"):
         self._directory = folder
         self._logger = logging.getLogger(__name__)
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}")
 
 #   Used to create a new game.  
 #       Creates folder structure
 #       Creates gamedata file
 #       Creates player file        
     def Create_New_Game(self):
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}")
+
         if not os.path.exists(self._directory):
-            self._logger.debug("    creating new game folder")
             os.makedirs(self._directory)
             os.makedirs(f'{self._directory}\\turns')
             os.makedirs(f'{self._directory}\\turns\\0')
         
         self._data = GameData(self._directory)
-        self._data.Initialize()
 
         self._players = Players(f'{self._directory}players.json')
         self._players.Load()
-            
+
+        self._logger.debug(f"       {inspect.currentframe().f_code.co_name} Result=New game created")            
     # # initmap(); - map.cc
     # # initunits(); - unit.cc
 
@@ -51,9 +54,20 @@ class Game:
     # Adds a player to the game data file
     #   This can only be done before the game starts.
     def Add_Player(self,name:str, email:str) -> None:
-        self._players.Add(name, email, self._data.starting_money)
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}{name}{email}")
+        r = self._players.Add(name, email, self._data.starting_money)
+        self._logger.debug(f"       {inspect.currentframe().f_code.co_name} Result=Playerid={r}")
+
+    def Clear_Players(self)-> None:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}")
+        self._players.Clear()
+
+    def Load_Players(self)->None:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}")
+        self._players.Load()
 
     def Start_Game(self) -> None:
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}")
         self._data.started = True
         self._data.Save()
         self.Run_Turn()
@@ -123,6 +137,7 @@ class Game:
     # # }
     #     return
     def Run_Turn(self):
+        self._logger.debug(f"     {__name__}:{inspect.currentframe().f_code.co_name}")
         return
     # def run_turn():
     # # slot = 0;

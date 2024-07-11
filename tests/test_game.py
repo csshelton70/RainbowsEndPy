@@ -47,15 +47,15 @@ def test_game_add_player(setup_data):
     _game = setup_data
     _game.Create_New_Game()
 
-    _game._players.Add("foo","test@test.com",_game._data.starting_money)
+    _game.Add_Player("foo","test@test.com")
 
     assert (_game._players.Count() == 1 )
 
     _game._players.Load()
     assert (_game._players.Count() == 1 )
     
-    _game._players.Clear()
-    _game._players.Load()
+    _game.Clear_Players()
+    _game.Load_Players()
     assert (_game._players.Count() == 1 )
     assert( _game._players._list[0].name == "foo")    
     assert (_game._players._list[0].money == _game._data.starting_money)

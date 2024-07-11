@@ -36,7 +36,7 @@ class Players:
                     _p.Populate_From_Dict(item)
                     self._list.append(_p)
 
-    def Add(self,name,email, money):
+    def Add(self,name,email, money) -> int:
         self.Load()
         id = self.Count()
         id+=1
@@ -44,6 +44,7 @@ class Players:
         _p.Populate(id,name,email,money)
         self._list.append(_p)
         self.Save()
+        return id
 
     def Add_From_Dict(self,d):
         self.Load()
