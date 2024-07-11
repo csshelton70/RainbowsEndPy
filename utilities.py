@@ -1,18 +1,12 @@
-from email_validator import validate_email
 
 
- 
-def check_email(testEmail):
-    s = validate_email(testEmail,check_deliverability=False)
-    return testEmail.lower() == s.ascii_email.lower()
-
-def is_even(i) -> bool:
+def Is_Even(i) -> bool:
     return (i%2 == 0)
 
-def is_odd(i) -> bool:
+def Is_Odd(i) -> bool:
     return ( i%2 != 0)
 
-def sign(num):
+def Get_Sign(num):
     if num > 0:
         return "+"
     elif num < 0:

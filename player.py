@@ -11,7 +11,7 @@ class Player:
     units : list[int]
     removed_units : list[int]
 
-    def populate(self, id: int, name: str, email: str, starting_money: int) -> None:
+    def Populate(self, id: int, name: str, email: str, starting_money: int) -> None:
         self.id = id
         self.name = name
         self.email = email
@@ -21,7 +21,7 @@ class Player:
         self.units = []
         self.removed_units = []
 
-    def populate_from_dict(self, item : dict) -> None:
+    def Populate_From_Dict(self, item : dict) -> None:
         self.id = item["id"]
         self.name = item["name"]
         self.email = item["email"]
@@ -31,7 +31,7 @@ class Player:
         self.units = item["units"]
         self.removed_units = item["removedunits"]
 
-    def to_dict(self):
+    def To_Dict(self):
         return {
             "id":self.id,
             "name": self.name,

@@ -1,5 +1,5 @@
 import pytest
-import utilities
+from utilities import *
 
 
 # def test_email():
@@ -11,18 +11,18 @@ import utilities
 #     assert check_email("firstname+lastname@example.com") == True
 
 def test_is_even():
-    assert ( utilities.is_even (2))
-    assert ( utilities.is_even (50))
-    assert ( utilities.is_even (986))
-    assert ( utilities.is_even (0))
+    assert ( Is_Even (2))
+    assert ( Is_Even (50))
+    assert ( Is_Even (986))
+    assert ( Is_Even (0))
 
 def test_is_odd():
-    assert( utilities.is_odd(1))
-    assert( utilities.is_odd(33))
-    assert( utilities.is_odd(769))
+    assert( Is_Odd(1))
+    assert( Is_Odd(33))
+    assert( Is_Odd(769))
 
 def test_sign():
-    assert(utilities.sign(4) == "+")
-    assert(utilities.sign(-1) == "-")
-    assert(utilities.sign(0) == "0")
+    assert(Get_Sign(4) == "+")
+    assert(Get_Sign(-1) == "-")
+    assert(Get_Sign(0) == "0")
     

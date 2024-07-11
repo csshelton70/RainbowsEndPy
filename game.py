@@ -5,52 +5,40 @@ from typing import List
 import logging
 
 from players import Players
+from game_data import GameData
 
 class Game:
     #private
-    _turn: int
-    _slot: int
     _directory: str
     _players_file: str
     _players: Players
-    _options : dict
-
+    _data : GameData
+    _logger : logging.Logger
+    _units : dict[dict]
     #public
-    
-       
+
+#   Initializes the game object       
     def __init__(self,folder=".\\game\\"):
-        self._turn = 0
-        self._slot = 0
         self._directory = folder
-        self._options= dict(humanplayers=0, computerplayers=0, startingmoney=10,mapsize=35,cityseparation=3,sightingdistance=3)
-        # // TODO: Write the options to the disk in the game folder so they can be modified by the user using text editor
-        self._players = Players(f'{folder}players.json')
-        
         self._logger = logging.getLogger(__name__)
-        self._players.load()
-        
-    def create_new_game(self):
+
+#   Used to create a new game.  
+#       Creates folder structure
+#       Creates gamedata file
+#       Creates player file        
+    def Create_New_Game(self):
         if not os.path.exists(self._directory):
             self._logger.debug("    creating new game folder")
             os.makedirs(self._directory)
             os.makedirs(f'{self._directory}\\turns')
-            os.makedirs(f'{self._directory}\\turns\\{self._turn}')
-        self._players.load()
+            os.makedirs(f'{self._directory}\\turns\\0')
+        
+        self._data = GameData(self._directory)
+        self._data.Initialize()
+
+        self._players = Players(f'{self._directory}players.json')
+        self._players.Load()
             
-
-    def start_game(self):
-        return
-    
-    def exists(self):
-        return os.path.exists(self._directory)    
-   
-
-
-    #    # self.turn=0
-    #    # players=players.Players()
-    #    # players.init()
-
-    # # initplayers(); - players.cc
     # # initmap(); - map.cc
     # # initunits(); - unit.cc
 
@@ -59,7 +47,19 @@ class Game:
 
     # # redraw(); - windows.cc
     #     return
-    
+
+    # Adds a player to the game data file
+    #   This can only be done before the game starts.
+    def Add_Player(self,name:str, email:str) -> None:
+        self._players.Add(name, email, self._data.starting_money)
+
+    def Start_Game(self) -> None:
+        self._data.started = True
+        self._data.Save()
+        self.Run_Turn()
+
+
+
     # def player_orders():
     # #     	for (slot = 1; slot <= maxorders; slot++)
     # # {
@@ -122,7 +122,8 @@ class Game:
     # # 	unitorders(2); - game.cc
     # # }
     #     return
-    
+    def Run_Turn(self):
+        return
     # def run_turn():
     # # slot = 0;
     # # load(); - save.cc

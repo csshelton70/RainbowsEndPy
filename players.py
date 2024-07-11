@@ -17,14 +17,14 @@ class Players:
         self._list = []
         self._filename = filename
 
-    def count(self):
-        self.load()
+    def Count(self):
+        self.Load()
         return len(self._list)
     
-    def clear(self):
+    def Clear(self):
         self._list = []
 
-    def load(self):
+    def Load(self):
         if ( os.path.exists(self._filename) == False):
             self._list = []
         else:
@@ -33,34 +33,34 @@ class Players:
                 self._list = []
                 for item in data:
                     _p = Player()
-                    _p.populate_from_dict(item)
+                    _p.Populate_From_Dict(item)
                     self._list.append(_p)
 
-    def add(self,name,email, money):
-        self.load()
-        id = self.count()
+    def Add(self,name,email, money):
+        self.Load()
+        id = self.Count()
         id+=1
         _p = Player()
-        _p.populate(id,name,email,money)
+        _p.Populate(id,name,email,money)
         self._list.append(_p)
-        self.save()
+        self.Save()
 
-    def add_from_dict(self,d):
-        self.load()
-        id = self.count()
+    def Add_From_Dict(self,d):
+        self.Load()
+        id = self.Count()
         id += 1
         d["id"] = id
         _p = Player()
-        _p.populate_from_dict(d)
+        _p.Populate_From_Dict(d)
         self._list.append(_p)
-        self.save()
+        self.Save()
         
-    def save(self):
-        dict_list = [player.to_dict() for player in self._list]
+    def Save(self):
+        dict_list = [player.To_Dict() for player in self._list]
         with open(self._filename,'w') as file:
             json.dump(dict_list, file, indent=4)
 
-    def find_by_id(self,id):
+    def Find_By_Id(self,id):
 #        player = next(filter(lambda player: player.id == id, self.list))
         f = (filter(lambda player: player.id == id, self._list))
         lst = list(f)
@@ -70,11 +70,11 @@ class Players:
         else:
             return None
 
-    def remove_by_id(self,id):
-        if ( self.find_by_id(id) != None ):
+    def Remove_By_Id(self,id):
+        if ( self.Find_By_Id(id) != None ):
             l= list(filter(lambda player: player.id != id, self._list))
             self._list = l
-            self.save()
+            self.Save()
             return len(self._list)
 
     

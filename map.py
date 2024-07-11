@@ -1,5 +1,23 @@
+    #-----------------------------------------------------------------------------------
+	# A note on coordinate systems.
+	# The game uses a total of four coordinate systems in different contexts.
+	# These are:
+
+	# H: A number from 0 to hexescount - 1.
+	# Useful for iterating through all hexes
+	# or referring to an arbitrary one irrespective of location.
+
+	# X,Y: The usual Cartesian coordinates.
+
+	# A,B: Axes inclined at 60 degrees rather than 90.
+	# This system makes the distance formula simpler.
+
+	# D: A direction from 0 to 5 counting clockwise from north.
+    #-----------------------------------------------------------------------------------
+
+
 from random import randint
-from utilities import is_even, is_odd, sign
+from utilities import Is_Even, Is_Odd, Get_Sign
 
 class Map:
     #private
@@ -19,7 +37,7 @@ class Map:
 
         return
     
-    def CreateMap(self,mapsize) -> None:
+    def Create_Map(self,mapsize) -> None:
         self._mapsize = mapsize
         hexcount = mapsize * mapsize
 
@@ -146,21 +164,21 @@ class Map:
         if (d == 0):
             y-=1
         elif (d ==1 ):
-            if (is_even(x)):
+            if (Is_Even(x)):
                 y-=1
             x+=1
         elif ( d==2):
-            if ( is_odd(x)):
+            if ( Is_Odd(x)):
                 y+=1
             x+=1
         elif (d==3):
             y+=1
         elif (d==4):
-            if (is_odd(x)):
+            if (Is_Odd(x)):
                 y+=1
             x-=1
         elif (d==5):
-            if (is_even(x)):
+            if (Is_Even(x)):
                 y-=1
             x-=1
 
@@ -191,7 +209,7 @@ class Map:
         da = a1-a2
         db = b1-b2
 
-        s = bool(sign(da) == sign(db))
+        s = bool(Get_Sign(da) == Get_Sign(db))
 
         da = abs(da)
         db = abs(db)

@@ -37,6 +37,6 @@ def test_save_data_no_file(setup_data):
     _gd.current_turn = 999
     assert ( _gd.current_turn == 999)
 
-    _gd.load()
+    _gd.Load()
 
     assert(_gd.current_turn == 0)

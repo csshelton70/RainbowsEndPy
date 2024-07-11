@@ -7,7 +7,7 @@ def test_player_creation():
     name="foo"
     email="a@a.com"
     _player = Player()
-    _player.populate(id,name,email,44)
+    _player.Populate(id,name,email,44)
 
     assert ( id == _player.id)
     assert ( name == _player.name)
@@ -23,14 +23,14 @@ def test_player_list_creation():
     name="foo"
     email="a@a.com"
     _p = Player()
-    _p.populate(id,name,email,35)
+    _p.Populate(id,name,email,35)
     _players.append(_p)
 
     id = 2
     name="boo"
     email="2@2.com"
     _p2 = Player()
-    _p2.populate(id,name,email,35)
+    _p2.Populate(id,name,email,35)
     _players.append(_p2)
 
     print (_players[0])

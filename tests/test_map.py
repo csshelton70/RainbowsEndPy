@@ -5,7 +5,7 @@ import map
 @pytest.fixture
 def setup_data():
     _map = map.Map()
-    _map.CreateMap(10)
+    _map.Create_Map(10)
 
     yield _map
 
